@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 加入配置方式:jdbc的四个参数名称,连接mysql -->
+<configuration>
+	<!-- 设置日志 -->
+	<settings>
+		<setting name="logImpl" value="LOG4J"/>
+	</settings>
+	<!-- 1.配置环境 方式:三个阶段,开发->测试->真实环境   -->
+	<environments default="deve">
+		<environment id="deve">
+			<!-- A.使用原生JDBC事务,transaction:事务 -->
+			<transactionManager type="JDBC"></transactionManager>
+			<dataSource type="POOLED">
+			<!-- B.配置jdbc的四个参数名称,名称必须要填写正确 -->
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url" value="jdbc:mysql://localhost:3306/data86"/>
+				<property name="username" value="root"/>
+				<property name="password" value="root"/>
+			</dataSource>
+		</environment>
+		<environment id="testing">
+			<transactionManager type="JDBC"></transactionManager>
+			<dataSource type="POOLED">
+				<!-- 配置jdbc的四个参数名称,名称必须要填写正确 -->
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url" value="jdbc:mysql://localhost:3306/data_01"/>
+				<property name="username" value="root"/>
+				<property name="password" value="root"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 2.Mybatis查找映射文件 ,实现接口类的子类,UserDaoImpl-->
+	<mappers>
+		<!-- <mapper resource="mappers/ShopMapper.xml"/> -->
+		<mapper resource="mappers/UserMapper.xml"/>
+	</mappers>
+</configuration>

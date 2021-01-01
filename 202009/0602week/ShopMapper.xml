@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peng.dao.ShopDao">
+	<!-- id叫做唯一编号 -->
+	<!-- <parameterMap type="" id="">
+	
+	</parameterMap> -->
+	<select id="getList" resultType="Shop" parameterType="Shop">
+		select * from jingdong where 1=1 
+		<if test="name != null and name != ''">
+			and trim(name) like #{name} 
+		</if>
+		<if test="price != null and price != 0"> 
+			or trim(price) = #{price} 
+		</if>
+		
+	</select>
+	<select id="getListByWhereSql" resultType="Shop" parameterType="Shop">
+		select * from jingdong
+		<where>
+			<if test="name != null and name != ''">
+				trim(name) like #{name} 
+			</if>
+			<if test="price != null and price != 0"> 
+				and trim(price) = #{price} 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 三者有一个成立就可以 -->
+	<select id="getChooseSql"  resultType="Shop" parameterType="Shop">
+		select * from jingdong  
+		<where>
+			<choose>
+				<when test="name != null and name != ''">
+					 trim(name) like #{name} 
+				</when>
+				<when test="price != null and price != 0">
+					 trim(price) = #{price} 
+				</when>
+				<!-- <when test="series != null and series != ''">
+					 trim(series) = #{series} 
+				</when> -->
+				<otherwise>
+					id > 10
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+	
+	<!-- 动态Sql: set -->
+	<update id="updateBySetSql" parameterType="Shop">
+		update jingdong
+		<set>
+			brand = #{brand},
+			<if test="price != null and price != 0"> 
+				 price = #{price}  
+			</if>
+		</set>
+		<where>
+			trim(name) like #{name} 
+		</where>
+	</update>
+	<select id="getListForeachSql"  resultType="Shop" >
+	<!-- 也可以不写调用的参数类型,下面的list就说明类型,以下面为准-->
+		select * from jingdong where id in 
+		<foreach collection="list" item="i" index="i" open="(" separator="," close=")"> 
+		<!-- item可以为id或者其他任意值,为空字符串也可,但是必须要与下面{}内容一致,index也可为任意值 -->
+			#{i}
+		</foreach>
+	</select>
+	<select id="getListForArraySql" resultType="Shop">
+		select * from jingdong where trim(name) in 
+		<foreach collection="array" item="i" index="i" open="(" separator="," close=")">
+			#{i} 
+		</foreach>
+	</select>
+	<select id="getDoubleList" resultType="map">
+		select j.*,t.* from jingdong j INNER JOIN taobao t on t.namet = j.name;
+	</select>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peng.dao.DoctorDao">
+	<select id="findAll" resultType="doc">
+		select * from doctors
+	</select>
+	<select id="getDoctorByPara"  resultType="Doc" parameterType="Doc">
+		select * from doctors where doctor = #{doctor} and level = #{level}
+	</select>
+	<select id="getDoctorById"  resultType="doc" parameterType="String">
+		select * from doctors where doctorId = #{oo} 
+	</select>
+	<insert id="saveDoctor"   parameterType="doc">
+		insert into doctors(doctorId,doctor,workAge,level,beGoodAt,office_id,hospital_id)  values(#{doctorId},#{doctor},#{workAge},#{level},#{beGoodAt},#{office_id},#{hospital_id})
+	</insert>
+	<update id="updateDoctor"  parameterType="com.peng.model.Doctor">
+		update doctors set beGoodAt = #{beGoodAt},workAge = #{workAge} where doctor = #{doctor}
+		<!-- #可以使用{?}索引 ,$使用{内容}的setget方法(必须要能够使用set/Get方法),不用?方法 ; #比较参数,$比较column_name -->
+	</update>
+	<delete id="deleteDoctorById" parameterType="String">
+		delete from doctors where doctorId = #{OK}
+	</delete>
+	<select id="getDoctorPage"  resultType="doc" parameterType="map">
+		select * from doctors limit #{pageStart} , #{pageSize}
+	</select>
+	
+</mapper>

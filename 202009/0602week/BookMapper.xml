@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.peng.dao.BookDao">
+ 	<select id="getListById" resultType="book" parameterType="book">
+ 		select * from books
+ 		<where>
+ 			<if test="id != null and id != 0">
+ 				id = #{id}
+ 			</if>
+ 		</where>
+ 	</select>
+ 	<select id="getListByName" resultType="book" parameterType="book">
+ 		select * from books
+ 		<where>
+ 			<if test="name != null and name != ''">
+ 				trim(name) = #{name}
+ 			</if>
+ 		</where>
+ 	</select>
+ 	<select id="getListByAuthor" resultType="book" parameterType="book">
+ 		select * from books
+ 		<where>
+ 			<if test="author != null and author != ''">
+ 				trim(author) = #{author}
+ 			</if>
+ 		</where>
+ 	</select>
+ 	<select id="getChooseOne" resultType="book" parameterType="book">
+ 		select * from books 
+ 		<where>
+ 			<choose>
+ 				<when test="author != null and author != ''">
+ 					trim(author) = #{author}
+ 				</when>
+ 				<when test="name != null and name != ''">
+ 					trim(name) = #{name}
+ 				</when>
+ 				<otherwise>
+ 					id = #{id}
+ 				</otherwise>
+ 			</choose>
+ 		</where>
+ 	</select>
+ 	<select id="getListByForeach" resultType="book" >
+ 		select * from books 
+ 		<where>
+ 			publish in 
+ 			<foreach collection="list" open="(" separator="," close=")" index="i" item="publish">
+ 				#{publish}
+ 			</foreach>
+ 		</where>
+ 	</select>
+ 	<insert id="insertNewBook" parameterType="book">
+ 		insert into books(name,author,price,publish) values(#{name},#{author},#{price},#{publish})
+ 	</insert>
+ 	<update id="updateBookPrice" parameterType="book">
+ 		update books 
+ 		<set>
+ 			price = #{price},
+ 			<if test="publish != null and publish != ''">
+ 				publish = #{publish}
+ 			</if>
+ 			<where>
+ 				name = #{name}
+ 			</where>
+ 		</set>
+ 	</update>
+ </mapper>

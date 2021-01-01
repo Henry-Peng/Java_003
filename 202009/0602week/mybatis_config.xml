@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  <configuration>
+  	<settings>
+  		<setting name="logImpl" value="LOG4J"/>
+  	</settings>
+  	<!-- model类起别名 -->
+  	<typeAliases>
+  		<typeAlias type="com.peng.model.Doctor" alias="doc"/> <!-- 自定义某个类别名,首字母也不区分大小写 -->
+  		<!-- <typeAlias type="com.peng.dao.DoctorDao" alias="dao"/> 
+ -->  		<package name="com.peng.model"/><!-- 给此包下所有类起别名,别名为类名,首字母不区分大小写 -->
+  	</typeAliases>
+  	<!-- 三个环境:开发,测试,生产 -->
+  	<environments default="test">
+  		<environment id="development">
+  			<transactionManager type="JDBC"></transactionManager>
+  			<dataSource type="POOLED">
+  				<property name="driver" value="com.mysql.jdbc.Driver"/>
+  				<property name="url" value="jdbc:mysql://localhost:3306/hospital"/>
+  				<property name="username" value="root"/>
+  				<property name="password" value="root"/>
+  			</dataSource>
+  		</environment>
+  		<environment id="test">
+  			<transactionManager type="JDBC"></transactionManager>
+  			<dataSource type="POOLED">
+  				<property name="driver" value="com.mysql.jdbc.Driver"/>
+  				<property name="url" value="jdbc:mysql://localhost:3306/data_01"/>
+  				<property name="username" value="root"/>
+  				<property name="password" value="root"/>
+  			</dataSource>
+  		</environment>
+  	</environments> 
+  	
+  	<!-- 配置映射文件 -->
+  	<mappers>
+  		<mapper resource="mapper/DoctorMapper.xml"/>
+  		<mapper resource="mapper/ShopMapper.xml"/>
+  		<mapper resource="mapper/BookMapper.xml"/>
+  	</mappers>
+  </configuration>

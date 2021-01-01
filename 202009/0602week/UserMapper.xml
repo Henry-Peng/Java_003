@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 接口类的实现类(子类),对应哪一个接口类(父类) -->
+	<!--  namespace="对应接口类:全限定路径名称"  -->
+<mapper namespace="com.peng.dao.UserDao">
+	<!-- 功能:查询所有的商品
+		1.id:对应接口类的方法名称
+		2.resultType:对应接口类的返回结果类型
+	 -->
+	<select id="findUserAll" resultType="com.peng.model.User">
+		select * from user
+	</select>
+	<select id="findUserById" resultType="com.peng.model.User">
+		select * from user where id = 3
+	</select>
+	<select id="getCount" resultType="int">
+		select count(1) from user
+	</select>
+	<select id="findMap" resultType="Map">
+		select * from user
+	</select>
+	<!-- 原来jdbc使用的是?占位符,mybatis使用#{字段名称}  防sql注入 -->
+	<select id="getUserByMap" resultType="com.peng.model.User" parameterType="map">
+		select * from user 
+	</select>
+	
+</mapper>
